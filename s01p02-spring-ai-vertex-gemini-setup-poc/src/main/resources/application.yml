@@ -1,0 +1,25 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    google:
+      genai:
+        # The google-genai Client validates config eagerly at bean-creation time and
+        # refuses to start with a blank api-key (unlike Anthropic's client, which only
+        # fails on the actual network call). Fall back to an obvious placeholder so the
+        # app/tests still start with no key configured; GeminiDemoRunner and the live
+        # tests check the real GEMINI_API_KEY env var directly, not this property, to
+        # decide whether to skip.
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+            temperature: 0.7
+            max-output-tokens: 512
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
