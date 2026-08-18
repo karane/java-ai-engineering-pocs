@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.9</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.pocs</groupId>
+    <artifactId>s02p03-few-shot-prompting-poc</artifactId>
+    <version>0.1.0</version>
+    <name>s02p03-few-shot-prompting-poc</name>
+    <description>Spring AI few-shot prompting POC: alternating UserMessage/AssistantMessage example pairs in a Prompt, PromptTemplate loop-based example injection, and comparing zero-shot vs. few-shot classification lift on Claude vs. Gemini.</description>
+
+    <properties>
+        <java.version>25</java.version>
+        <!-- Pinned to 1.1.8, matching s01p02/s01p04/s01p06: spring-ai-google-genai 2.0.1 needs Spring
+             Framework 7 (the Boot 4 line) and fails to start on this Boot 3.5.9 parent
+             with NoClassDefFoundError: org.springframework.core.retry.RetryTemplate.
+             1.1.8 is the last line whose google-genai module still targets Framework 6.2.x.
+             Letting the bom pick the matching spring-ai-anthropic version (rather than
+             hand-pinning an older one) matters here: spring-ai-anthropic's compiled
+             bytecode calls constructors on spring-ai-model classes directly, so an
+             anthropic jar built against a different spring-ai-model version than the
+             one actually on the classpath fails at runtime with NoSuchMethodError,
+             not at compile time - mixing modules across major versions isn't just a
+             source-compatibility risk, it's a binary one. -->
+        <spring-ai.version>1.1.8</spring-ai.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-anthropic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-google-genai</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
