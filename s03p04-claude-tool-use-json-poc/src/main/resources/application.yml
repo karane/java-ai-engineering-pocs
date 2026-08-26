@@ -1,0 +1,25 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        options:
+          model: claude-haiku-4-5-20251001
+          max-tokens: 512
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+            temperature: 0.2
+            max-output-tokens: 512
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
