@@ -22,10 +22,6 @@ public class TimeTools {
         this.clock = clock;
     }
 
-    /**
-     * Builds the "get_current_date_time" tool callback programmatically via
-     * {@code FunctionToolCallback.builder(...)}, rather than via an {@code @Tool}-annotated method.
-     */
     public ToolCallback currentDateTimeToolCallback() {
         Supplier<String> currentDateTime = () ->
                 LocalDateTime.now(clock).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
