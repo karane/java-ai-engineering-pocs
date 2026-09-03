@@ -1,0 +1,23 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        options:
+          model: claude-haiku-4-5-20251001
+          max-tokens: 1024
+
+weather:
+  api:
+    base-url: https://api.open-meteo.com
+    geocoding-base-url: https://geocoding-api.open-meteo.com
+    connect-timeout-ms: 3000
+    read-timeout-ms: 5000
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
