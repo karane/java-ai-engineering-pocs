@@ -1,0 +1,32 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    google:
+      genai:
+        # Eagerly validated at bean-creation time (see s01p02's note) - fall back to a
+        # placeholder so the app/tests still start with no key configured.
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+        # The embedding side has its own, separate connection-properties namespace
+        # (GoogleGenAiEmbeddingConnectionProperties) from the chat side above - it does
+        # NOT inherit spring.ai.google.genai.api-key/vertex-ai, and its connection-details
+        # bean validates eagerly, requiring its own api-key and project-id even in
+        # Gemini Developer API mode (vertex-ai: false).
+        embedding:
+          api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+          vertex-ai: false
+          project-id: ${GOOGLE_CLOUD_PROJECT:demo-placeholder-project}
+          location: us-central1
+          text:
+            options:
+              model: gemini-embedding-001
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN

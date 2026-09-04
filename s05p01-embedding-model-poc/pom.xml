@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.9</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.pocs</groupId>
+    <artifactId>s05p01-embedding-model-poc</artifactId>
+    <version>0.1.0</version>
+    <name>s05p01-embedding-model-poc</name>
+    <description>EmbeddingModel POC: GoogleGenAiTextEmbeddingModel (Gemini text-embedding-004), .embed()/.embedForResponse(), and EmbeddingResponse metadata inspection.</description>
+
+    <properties>
+        <java.version>25</java.version>
+        <!-- Pinned to Spring AI 1.1.8, matching s01p02: spring-ai-google-genai 2.0.1 depends
+             on Spring Framework 7.0.9 (the Boot 4 line) which is incompatible with the
+             Boot 3.5.9 parent used here. 1.1.8 is the last line whose google-genai module
+             still targets Framework 6.2.x. -->
+        <spring-ai.version>1.1.8</spring-ai.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-google-genai</artifactId>
+        </dependency>
+        <!-- The starter only brings the chat model; the embedding model implementation
+             (GoogleGenAiTextEmbeddingModel) lives in this separate module. Its
+             auto-configuration class is already bundled inside
+             spring-ai-autoconfigure-model-google-genai (pulled in by the starter above),
+             so adding this jar is enough to get the bean auto-wired. -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-google-genai-embedding</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
