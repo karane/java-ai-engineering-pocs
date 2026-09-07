@@ -1,0 +1,11 @@
+Spring AI is a framework that simplifies building applications powered by large language models.
+It provides portable abstractions such as ChatClient, EmbeddingModel, and VectorStore, so an
+application can switch between providers like Anthropic Claude and Google Gemini with minimal
+code changes. Beyond a single chat call, Spring AI also supports Retrieval-Augmented Generation
+by pairing an EmbeddingModel with a VectorStore, and structured document ingestion pipelines
+that read raw source files, split them into manageable chunks, enrich those chunks with
+LLM-generated metadata such as keywords and summaries, and finally persist the results for later
+similarity search. This sample document exists purely to exercise that ingestion pipeline: a
+TikaDocumentReader parses it, a TokenTextSplitter breaks it into token-sized chunks, and
+KeywordMetadataEnricher and SummaryMetadataEnricher attach LLM-generated metadata to each chunk
+before it is stored in a SimpleVectorStore.

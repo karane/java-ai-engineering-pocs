@@ -1,0 +1,25 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+        embedding:
+          api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+          vertex-ai: false
+          project-id: ${GOOGLE_CLOUD_PROJECT:demo-placeholder-project}
+          location: us-central1
+          text:
+            options:
+              model: gemini-embedding-001
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
