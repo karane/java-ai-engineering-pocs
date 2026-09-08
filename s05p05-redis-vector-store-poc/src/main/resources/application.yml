@@ -1,0 +1,33 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+        embedding:
+          api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+          vertex-ai: false
+          project-id: ${GOOGLE_CLOUD_PROJECT:demo-placeholder-project}
+          location: us-central1
+          text:
+            options:
+              model: gemini-embedding-001
+  # RedisVectorStoreAutoConfiguration's bean needs a real, reachable Redis (its
+  # JedisConnectionFactory-backed jedisPooled() bean is used eagerly the same way
+  # PgVectorStore's DataSource is in s05p02) - excluded below so the app/tests boot
+  # with zero services. RedisVectorStoreService instead builds its own JedisPooled/
+  # RedisVectorStore by hand, given a real or Testcontainers Redis Stack instance.
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.vectorstore.redis.autoconfigure.RedisVectorStoreAutoConfiguration
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
