@@ -1,0 +1,28 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        model: claude-haiku-4-5-20251001
+        temperature: 0.0
+        max-tokens: 512
+    google:
+      genai:
+        # See s01p02: the google-genai Client validates config eagerly and refuses to
+        # start with a blank api-key, so fall back to a placeholder when GEMINI_API_KEY
+        # isn't set. Live tests check the real env var directly to decide whether to skip.
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+            temperature: 0.0
+            max-output-tokens: 512
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
