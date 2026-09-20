@@ -1,0 +1,40 @@
+package com.pocs.contextualcompression;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.Embedding;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.embedding.EmbeddingRequest;
+import org.springframework.ai.embedding.EmbeddingResponse;
+
+/** A trivial hash-based {@link EmbeddingModel}, identical in spirit to {@code s05p03}'s: identical text always produces the identical vector, different text produces different vectors - enough to exercise {@code SimpleVectorStore}'s real similarity search without any network call or API key. */
+class DeterministicFakeEmbeddingModel implements EmbeddingModel {
+
+    static final int DIMENSIONS = 8;
+
+    @Override
+    public EmbeddingResponse call(EmbeddingRequest request) {
+        List<Embedding> embeddings = new ArrayList<>();
+        int index = 0;
+        for (String text : request.getInstructions()) {
+            embeddings.add(new Embedding(vectorFor(text), index++));
+        }
+        return new EmbeddingResponse(embeddings);
+    }
+
+    @Override
+    public float[] embed(Document document) {
+        return vectorFor(document.getText());
+    }
+
+    private float[] vectorFor(String text) {
+        float[] vector = new float[DIMENSIONS];
+        for (int i = 0; i < DIMENSIONS; i++) {
+            int seed = Math.floorMod(text.hashCode() + i * 7919, 1000);
+            vector[i] = seed / 1000f;
+        }
+        return vector;
+    }
+}

@@ -1,0 +1,36 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    # Two chat-model starters are on the classpath (Anthropic, and google-genai for its chat
+    # autoconfiguration that ships alongside the embedding one). This property is what
+    # Spring AI's autoconfiguration actually keys ChatModel bean creation on - without it,
+    # both AnthropicChatAutoConfiguration and GoogleGenAiChatAutoConfiguration would try to
+    # register a primary ChatModel bean and the context would fail to start.
+    model:
+      chat: anthropic
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        model: claude-haiku-4-5-20251001
+        temperature: 0.0
+        max-tokens: 16
+    google:
+      genai:
+        # Only the embedding model is used from this starter - chat goes through Anthropic above.
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        embedding:
+          api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+          vertex-ai: false
+          project-id: ${GOOGLE_CLOUD_PROJECT:demo-placeholder-project}
+          location: us-central1
+          text:
+            options:
+              model: gemini-embedding-001
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
