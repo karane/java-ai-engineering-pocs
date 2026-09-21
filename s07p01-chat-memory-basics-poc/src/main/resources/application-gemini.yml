@@ -1,0 +1,10 @@
+app:
+  provider: gemini
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        chat:
+          options:
+            model: gemini-3.8-flash
