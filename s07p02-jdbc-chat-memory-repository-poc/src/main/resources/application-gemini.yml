@@ -1,0 +1,13 @@
+app:
+  provider: gemini
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:demo-placeholder-not-a-real-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+            temperature: 0.7
+            max-output-tokens: 512
