@@ -1,0 +1,11 @@
+app:
+  provider: gemini
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${gemini.api-key}
+        vertex-ai: false
+        chat:
+          options:
+            model: gemini-3.8-flash
