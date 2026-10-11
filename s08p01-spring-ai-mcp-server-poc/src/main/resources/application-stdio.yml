@@ -1,0 +1,19 @@
+spring:
+  main:
+    # stdio MCP servers are not HTTP services - the JVM's stdin/stdout IS the transport, so no
+    # embedded web server should start (a host like Claude Desktop spawns this as a subprocess and
+    # talks to it over pipes, never over a port).
+    web-application-type: none
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        name: s08p01-mcp-server-stdio
+        version: 0.1.0
+        type: SYNC
+        stdio: true
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN

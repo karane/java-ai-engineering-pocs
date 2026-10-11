@@ -1,0 +1,29 @@
+<configuration>
+    <!-- Gotcha: stdio MCP transport uses stdout as the JSON-RPC wire. Spring Boot's default
+         console appender also writes to stdout, which corrupts every MCP message with log lines.
+         Under the "stdio" profile we redirect the console appender to stderr instead; under any
+         other profile (webmvc/http) stdout is just a terminal, so normal stdout logging is fine. -->
+    <springProfile name="stdio">
+        <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+            <target>System.err</target>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="WARN">
+            <appender-ref ref="STDERR"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!stdio">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="WARN">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>
