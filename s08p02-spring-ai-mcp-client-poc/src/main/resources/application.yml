@@ -1,0 +1,31 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        options:
+          model: claude-haiku-4-5-20251001
+          max-tokens: 1024
+    mcp:
+      client:
+        type: SYNC
+        stdio:
+          connections:
+            # Spawns the s08p01 server jar as a subprocess over stdio. The jar must be built first:
+            #   (cd ../s08p01-spring-ai-mcp-server-poc && mvn -DskipTests package)
+            # ${mcp.server.jar} resolves against -D on the command line (see README); it defaults here
+            # to the relative path from this module's working directory.
+            unit-conversion-server:
+              command: java
+              args:
+                - -jar
+                - ${mcp.server.jar:../s08p01-spring-ai-mcp-server-poc/target/s08p01-spring-ai-mcp-server-poc-0.1.0.jar}
+                - --spring.profiles.active=stdio
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
