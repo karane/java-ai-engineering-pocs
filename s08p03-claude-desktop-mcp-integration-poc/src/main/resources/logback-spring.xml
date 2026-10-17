@@ -1,0 +1,14 @@
+<configuration>
+    <!-- Always redirect to stderr: the default profile is a stdio MCP server, where stdout is the
+         JSON-RPC wire (see s08p01's BLOG.md gotcha) - the "latency" profile has no such constraint,
+         but there's no harm keeping console output on stderr there too. -->
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="WARN">
+        <appender-ref ref="STDERR"/>
+    </root>
+</configuration>

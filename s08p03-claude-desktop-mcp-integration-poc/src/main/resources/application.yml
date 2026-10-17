@@ -1,0 +1,21 @@
+# Default profile: this app IS the stdio MCP server meant to be registered in Claude Desktop's
+# claude_desktop_config.json (see README). Claude Desktop spawns "java -jar <this-jar>" as a
+# subprocess with no extra arguments, so the default profile must already be the stdio shape.
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        name: s08p03-mcp-server
+        version: 0.1.0
+        type: SYNC
+        stdio: true
+      client:
+        enabled: false
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN

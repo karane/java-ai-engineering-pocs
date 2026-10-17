@@ -1,0 +1,27 @@
+# "latency" profile: runs the automatable comparison harness instead of acting as the server.
+# It disables this process's own MCP server (so it doesn't try to bind stdio to itself) and spawns a
+# *second* JVM running the default profile (the real stdio server) as a subprocess, then measures
+# calling the same tool directly in-process vs. over that MCP connection.
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        enabled: false
+      client:
+        enabled: true
+        type: SYNC
+        stdio:
+          connections:
+            latency-server:
+              command: java
+              args:
+                - -jar
+                - ${mcp.server.jar:target/s08p03-claude-desktop-mcp-integration-poc-0.1.0.jar}
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN

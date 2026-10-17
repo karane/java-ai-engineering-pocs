@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "s08p03-unit-conversion": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/absolute/path/to/java-ai-engineering-pocs/s08p03-claude-desktop-mcp-integration-poc/target/s08p03-claude-desktop-mcp-integration-poc-0.1.0.jar"
+      ]
+    }
+  }
+}
