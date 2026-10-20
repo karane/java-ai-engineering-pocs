@@ -1,0 +1,14 @@
+<configuration>
+    <!-- Always redirect to stderr: server-a/server-b profiles are stdio MCP servers, where stdout is
+         the JSON-RPC wire (see s08p01's BLOG.md gotcha). The aggregator profile has no such
+         constraint, but keeping it consistent avoids ever having to think about it per-profile. -->
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="WARN">
+        <appender-ref ref="STDERR"/>
+    </root>
+</configuration>

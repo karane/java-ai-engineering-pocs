@@ -1,0 +1,20 @@
+# "server-b" profile: this jar acts solely as the text-tools stdio MCP server.
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: s08p04-server-b-text-tools
+        version: 0.1.0
+        type: SYNC
+        stdio: true
+      client:
+        enabled: false
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN

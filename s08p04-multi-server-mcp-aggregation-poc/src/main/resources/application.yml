@@ -1,0 +1,39 @@
+# Default profile (no profile, or "aggregator"): the aggregating ChatClient side. Spawns both
+# server-a and server-b as stdio subprocesses (running this same jar under their own profiles) and
+# combines their discovered tools into one ChatClient.
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      chat:
+        options:
+          model: claude-haiku-4-5-20251001
+          max-tokens: 1024
+    mcp:
+      server:
+        enabled: false
+      client:
+        enabled: true
+        type: SYNC
+        stdio:
+          connections:
+            unit-conversion-server:
+              command: java
+              args:
+                - -jar
+                - ${mcp.jar:target/s08p04-multi-server-mcp-aggregation-poc-0.1.0.jar}
+                - --spring.profiles.active=server-a
+            text-tools-server:
+              command: java
+              args:
+                - -jar
+                - ${mcp.jar:target/s08p04-multi-server-mcp-aggregation-poc-0.1.0.jar}
+                - --spring.profiles.active=server-b
+
+logging:
+  level:
+    root: WARN
+    org.springframework.ai: WARN
